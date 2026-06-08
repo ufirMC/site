@@ -81,7 +81,6 @@
             position: relative;
             text-align: center;
             background: #0f172a;
-            /* Tries to find banner.jpg first. If it doesn't exist, it uses the blue gradient fallback automatically. */
             background-image: url('/images/banner.jpg'), linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%);
             background-size: cover;
             background-position: center;
@@ -123,7 +122,7 @@
             letter-spacing: 0.05em;
         }
 
-        /* Content Layout Structures - NOW FULL WIDTH */
+        /* Content Layout Structures */
         main {
             max-width: 100%;
             width: 100%;
@@ -137,7 +136,7 @@
             z-index: 10;        
         }
 
-        /* RESPONSIVE AUTO-GRID COLUMNS */
+        /* Responsive Grid Columns */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -199,7 +198,7 @@
             transform: translateY(-2px);
         }
 
-        /* Custom UI Accent Tints matching your mockup */
+        /* Custom UI Accent Tints */
         .card-about { border-color: #cbd5e1; }
         .card-about:hover { border-color: #3b82f6; }
         .card-links { border-color: #ccfbf1; }
@@ -209,7 +208,7 @@
         .card-play { border-color: #ffe4e6; }
         .card-play:hover { border-color: #e11d48; }
 
-        /* Graphic Canvas & Fallbacks */
+        /* Graphic Canvas & Fallbacks (Home View Only) */
         .image-placeholder {
             width: 100%;
             height: 160px;
@@ -356,6 +355,7 @@
 </head>
 <body>
 
+    <!-- Unified Navigation Shell -->
     <nav>
         <button onclick="switchView('home')" id="nav-home" class="active">home</button>
         <button onclick="switchView('about')" id="nav-about">about</button>
@@ -365,6 +365,7 @@
         <button onclick="switchView('contact')" id="nav-contact">contact</button>
     </nav>
 
+    <!-- VIEW 1: HOME PANEL -->
     <div id="view-home" class="view active-view">
         <header>
             <div class="profile-container">
@@ -417,14 +418,11 @@
         </main>
     </div>
 
+    <!-- VIEW 2: ABOUT PANEL -->
     <div id="view-about" class="view">
         <main>
             <h1 class="view-title title-about">identity</h1>
             <div class="card card-about" style="text-align: left; align-items: flex-start; cursor: default; padding: 32px; max-width: 1200px; margin: 0 auto;">
-                <div class="image-placeholder" style="height: 220px; border-style: dashed;">
-                    PLACEHOLDER - ABOUT HEADER IMAGE
-                    <img src="/images/about-header.png" alt="about artwork" onerror="this.style.opacity=0;">
-                </div>
                 <h2 style="margin-bottom: 16px;">about me</h2>
                 <p style="font-size: 1.05rem; margin-bottom: 16px; color: #334155; line-height: 1.7;">hi, i'm ufir.</p>
                 <p style="margin-bottom: 12px; line-height: 1.7; color: #475569;">i build systems, configure software environments, and experiment with self-hosted technology infrastructures.</p>
@@ -433,27 +431,20 @@
         </main>
     </div>
 
+    <!-- VIEW 3: LINKS PANEL -->
     <div id="view-links" class="view">
         <main>
             <h1 class="view-title title-links">external assets</h1>
             <div class="list-stack">
                 
-                <a href="https://github.com" target="_blank" class="card card-links" style="flex-direction: row; text-align: left; align-items: center; padding: 20px 28px;">
-                    <div class="image-placeholder" style="width: 72px; height: 72px; margin-bottom: 0; margin-right: 24px; flex-shrink: 0; border-radius: 10px;">
-                        IMG
-                        <img src="/images/link-github.png" alt="github" onerror="this.style.opacity=0;">
-                    </div>
+                <a href="https://github.com" target="_blank" class="card card-links" style="flex-direction: row; text-align: left; align-items: center; padding: 24px 28px;">
                     <div style="flex-grow: 1;">
                         <h2>my github profile</h2>
                         <p>repositories, codebases, and development logs.</p>
                     </div>
                 </a>
 
-                <a href="#" target="_blank" class="card card-links" style="flex-direction: row; text-align: left; align-items: center; padding: 20px 28px;">
-                    <div class="image-placeholder" style="width: 72px; height: 72px; margin-bottom: 0; margin-right: 24px; flex-shrink: 0; border-radius: 10px;">
-                        IMG
-                        <img src="/images/link-project.png" alt="project" onerror="this.style.opacity=0;">
-                    </div>
+                <a href="#" target="_blank" class="card card-links" style="flex-direction: row; text-align: left; align-items: center; padding: 24px 28px;">
                     <div style="flex-grow: 1;">
                         <h2>featured project platform</h2>
                         <p>external web utility or resource dashboard link.</p>
@@ -464,21 +455,16 @@
         </main>
     </div>
 
+    <!-- VIEW 4: DOWNLOADS PANEL -->
     <div id="view-downloads" class="view">
         <main>
             <h1 class="view-title title-downloads">system files</h1>
             <div class="list-stack">
                 
                 <div class="card card-downloads" style="flex-direction: row; justify-content: space-between; text-align: left; align-items: center; padding: 24px; cursor: default;">
-                    <div style="display: flex; align-items: center;">
-                        <div class="image-placeholder" style="width: 72px; height: 72px; margin-bottom: 0; margin-right: 24px; flex-shrink: 0; border-radius: 10px;">
-                            ZIP
-                            <img src="/images/dl-archive.png" alt="file icon" onerror="this.style.opacity=0;">
-                        </div>
-                        <div>
-                            <h2>configuration_package.zip</h2>
-                            <p>contains initialization scripts and backup environments.</p>
-                        </div>
+                    <div>
+                        <h2>configuration_package.zip</h2>
+                        <p>contains initialization scripts and backup environments.</p>
                     </div>
                     <a href="/downloads/files/sample.zip" class="btn" style="background: #7c3aed;" download>get file</a>
                 </div>
@@ -487,16 +473,13 @@
         </main>
     </div>
 
+    <!-- VIEW 5: PLAY PANEL -->
     <div id="view-play" class="view">
         <main>
             <h1 class="view-title title-play">environments & nodes</h1>
             <div class="card-grid" style="max-width: 1200px; margin: 0 auto;">
                 
                 <div class="card card-play" style="cursor: default; padding: 24px;">
-                    <div class="image-placeholder" style="height: 150px;">
-                        PLACEHOLDER - ENVIRONMENT GRAPHIC
-                        <img src="/images/play-server.png" alt="server graphic" onerror="this.style.opacity=0;">
-                    </div>
                     <h2 style="width: 100%; text-align: left;">dedicated node status</h2>
                     <p style="margin-bottom: 16px; width: 100%; text-align: left;">multiplayer testing terminal</p>
                     <div style="background: #f1f5f9; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; color: #334155; text-align: left;">
@@ -508,13 +491,10 @@
         </main>
     </div>
 
+    <!-- VIEW 6: CONTACT PANEL -->
     <div id="view-contact" class="view">
         <main>
             <div class="card" style="max-width: 540px; margin: 20px auto 0 auto; border-color: #e2e8f0; cursor: default; padding: 32px;">
-                <div class="image-placeholder" style="height: 140px; background-color: #e2e8f0; color: #475569; border: none;">
-                    PLACEHOLDER - CONTACT GRAPHIC
-                    <img src="/images/contact-card.png" alt="contact banner" onerror="this.style.opacity=0;">
-                </div>
                 <h2 style="color: #0f172a; margin-bottom: 16px; width: 100%; text-align: left;">reach out</h2>
                 
                 <ul class="contact-list">
@@ -526,10 +506,12 @@
         </main>
     </div>
 
+    <!-- Persistent Global Footer -->
     <footer>
         <p>&copy; 2026 ufir &bull; <button onclick="switchView('contact')">contact</button></p>
     </footer>
 
+    <!-- Single Page App Router Engine -->
     <script>
         function switchView(viewName) {
             // Hide all active view segments
