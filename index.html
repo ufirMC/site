@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home | ufir</title>
     <style>
+        /* Modern System Root Variables for Easy Theme Swapping */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.9);
+            --border-default: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --nav-hover: #f1f5f9;
+            --nav-text-hover: #0f172a;
+            --nav-active-bg: #0f172a;
+            --nav-active-text: #ffffff;
+            --list-item-bg: #f8fafc;
+            --list-item-code-bg: #edf2f7;
+            --list-item-code-text: #0f172a;
+            --shadow-alpha: rgba(0, 0, 0, 0.05);
+            --shadow-beta: rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --bg-nav: rgba(15, 23, 42, 0.9);
+            --border-default: #334155;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --nav-hover: #1e293b;
+            --nav-text-hover: #f1f5f9;
+            --nav-active-bg: #3b82f6;
+            --nav-active-text: #ffffff;
+            --list-item-bg: #1e293b;
+            --list-item-code-bg: #0f172a;
+            --list-item-code-text: #3b82f6;
+            --shadow-alpha: rgba(0, 0, 0, 0.25);
+            --shadow-beta: rgba(0, 0, 0, 0.2);
+        }
+
         /* Modern System Reset */
         * {
             box-sizing: border-box;
@@ -14,32 +51,41 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             overflow-y: scroll;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Top Sticky Navigation Bar */
         nav {
             display: flex;
             justify-content: center;
-            background-color: rgba(255, 255, 255, 0.9);
+            align-items: center;
+            background-color: var(--bg-nav);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            padding: 14px 0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 14px 24px;
+            box-shadow: 0 1px 3px var(--shadow-alpha);
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
         }
 
         nav button {
             background: none;
             border: none;
-            color: #64748b;
+            color: var(--text-muted);
             font-family: inherit;
             font-size: 0.95rem;
             font-weight: 500;
@@ -51,13 +97,34 @@
         }
 
         nav button:hover {
-            background-color: #f1f5f9;
-            color: #0f172a;
+            background-color: var(--nav-hover);
+            color: var(--nav-text-hover);
         }
 
         nav button.active {
-            background-color: #0f172a;
-            color: #ffffff;
+            background-color: var(--nav-active-bg);
+            color: var(--nav-active-text);
+        }
+
+        /* Theme Toggle Button Style */
+        .theme-toggle-btn {
+            background: none;
+            border: 1px solid var(--border-default);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .theme-toggle-btn:hover {
+            background-color: var(--nav-hover);
+            color: var(--nav-text-hover);
+            border-color: var(--text-muted);
         }
 
         /* Single Page Layout Views */
@@ -115,11 +182,15 @@
             margin-bottom: 6px;
         }
 
-        header p {
+        /* Easter Egg Target Selector styling */
+        header p.secret-trigger {
             font-size: 1.1rem;
             opacity: 0.9;
             font-weight: 400;
             letter-spacing: 0.05em;
+            display: inline-block;
+            cursor: default;
+            user-select: none;
         }
 
         /* Content Layout Structures */
@@ -152,6 +223,10 @@
         }
 
         @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
             main {
                 padding: 0 20px;
             }
@@ -168,7 +243,7 @@
 
         /* Modern UI Cards */
         .card {
-            background: #ffffff;
+            background: var(--bg-card);
             border-radius: 20px;
             overflow: hidden;
             text-decoration: none;
@@ -177,8 +252,8 @@
             align-items: center;
             padding: 28px;
             text-align: center;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+            box-shadow: 0 10px 25px -5px var(--shadow-alpha), 0 8px 10px -6px var(--shadow-beta);
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.3s ease;
             border: 2px solid transparent;
             color: inherit;
         }
@@ -199,13 +274,13 @@
         }
 
         /* Custom UI Accent Tints */
-        .card-about { border-color: #cbd5e1; }
+        .card-about { border-color: var(--border-default); }
         .card-about:hover { border-color: #3b82f6; }
-        .card-links { border-color: #ccfbf1; }
+        .card-links { border-color: var(--border-default); }
         .card-links:hover { border-color: #0d9488; }
-        .card-downloads { border-color: #f3e8ff; }
+        .card-downloads { border-color: var(--border-default); }
         .card-downloads:hover { border-color: #7c3aed; }
-        .card-play { border-color: #ffe4e6; }
+        .card-play { border-color: var(--border-default); }
         .card-play:hover { border-color: #e11d48; }
 
         /* Graphic Canvas & Fallbacks (Home View Only) */
@@ -213,12 +288,12 @@
             width: 100%;
             height: 160px;
             border-radius: 12px;
-            background-color: #f1f5f9;
-            border: 1px dashed #cbd5e1;
+            background-color: var(--list-item-bg);
+            border: 1px dashed var(--border-default);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #94a3b8;
+            color: var(--text-muted);
             font-weight: 600;
             font-size: 0.85rem;
             letter-spacing: 0.05em;
@@ -255,10 +330,10 @@
             margin-right: auto;
         }
 
-        .title-about { color: #1e40af; border-bottom: 2px solid #dbeafe; }
-        .title-links { color: #115e59; border-bottom: 2px solid #ccfbf1; }
-        .title-downloads { color: #581c87; border-bottom: 2px solid #f3e8ff; }
-        .title-play { color: #9f1239; border-bottom: 2px solid #ffe4e6; }
+        .title-about { color: #1e40af; border-bottom: 2px solid var(--border-default); }
+        .title-links { color: #115e59; border-bottom: 2px solid var(--border-default); }
+        .title-downloads { color: #581c87; border-bottom: 2px solid var(--border-default); }
+        .title-play { color: #9f1239; border-bottom: 2px solid var(--border-default); }
 
         .card h2 {
             font-size: 1.5rem;
@@ -267,14 +342,14 @@
             letter-spacing: -0.01em;
         }
 
-        .card-about h2 { color: #1d4ed8; }
-        .card-links h2 { color: #0f766e; }
-        .card-downloads h2 { color: #6d28d9; }
-        .card-play h2 { color: #be123c; }
+        .card-about h2 { color: #3b82f6; }
+        .card-links h2 { color: #0d9488; }
+        .card-downloads h2 { color: #7c3aed; }
+        .card-play h2 { color: #e11d48; }
 
         .card p {
             font-size: 0.95rem;
-            color: #64748b;
+            color: var(--text-muted);
             font-weight: 400;
         }
 
@@ -303,8 +378,8 @@
         }
 
         .contact-list li {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: var(--list-item-bg);
+            border: 1px solid var(--border-default);
             margin: 10px 0;
             padding: 14px 18px;
             border-radius: 10px;
@@ -312,18 +387,20 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.95rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .contact-list strong {
-            color: #475569;
+            color: var(--text-main);
         }
 
         .contact-list span {
             font-family: monospace;
-            background-color: #edf2f7;
+            background-color: var(--list-item-code-bg);
             padding: 3px 8px;
             border-radius: 4px;
-            color: #0f172a;
+            color: var(--list-item-code-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Global Footer Elements */
@@ -332,15 +409,16 @@
             text-align: center;
             padding: 28px;
             font-size: 0.9rem;
-            color: #94a3b8;
-            border-top: 1px solid #e2e8f0;
-            background: #ffffff;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-default);
+            background: var(--bg-card);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
         
         footer button {
             background: none;
             border: none;
-            color: #64748b;
+            color: var(--text-muted);
             font-family: inherit;
             cursor: pointer;
             text-decoration: none;
@@ -348,31 +426,78 @@
         }
         
         footer button:hover {
-            color: #0f172a;
+            color: var(--text-main);
             text-decoration: underline;
+        }
+
+        /* Fullscreen Pac-Man Game Overlapping Screen Interface */
+        #pacman-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-family: monospace;
+        }
+
+        #pacman-overlay iframe {
+            width: 100%;
+            max-width: 900px;
+            height: 80vh;
+            border: none;
+            background: #000;
+        }
+
+        .close-pacman-btn {
+            background: #e11d48;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-family: inherit;
+            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4);
+            transition: transform 0.1s ease;
+        }
+        .close-pacman-btn:hover {
+            background: #be123c;
+            transform: scale(1.03);
         }
     </style>
 </head>
 <body>
 
-    <!-- Unified Navigation Shell -->
     <nav>
-        <button onclick="switchView('home')" id="nav-home" class="active">home</button>
-        <button onclick="switchView('about')" id="nav-about">about</button>
-        <button onclick="switchView('links')" id="nav-links">links</button>
-        <button onclick="switchView('downloads')" id="nav-downloads">downloads</button>
-        <button onclick="switchView('play')" id="nav-play">play</button>
-        <button onclick="switchView('contact')" id="nav-contact">contact</button>
+        <div class="nav-container">
+            <button onclick="switchView('home')" id="nav-home" class="active">home</button>
+            <button onclick="switchView('about')" id="nav-about">about</button>
+            <button onclick="switchView('links')" id="nav-links">links</button>
+            <button onclick="switchView('downloads')" id="nav-downloads">downloads</button>
+            <button onclick="switchView('play')" id="nav-play">play</button>
+            <button onclick="switchView('contact')" id="nav-contact">contact</button>
+        </div>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-toggle-btn">
+            🌙 Dark
+        </button>
     </nav>
 
-    <!-- VIEW 1: HOME PANEL -->
     <div id="view-home" class="view active-view">
         <header>
             <div class="profile-container">
                 <img class="avatar" src="/images/avatar.png" alt="" onerror="this.style.display='none';">
             </div>
             <h1>ufir.github.io</h1>
-            <p>welcome</p>
+            <p class="secret-trigger" onclick="handleSecretClick()">welcome</p>
         </header>
 
         <main class="home-main">
@@ -418,20 +543,18 @@
         </main>
     </div>
 
-    <!-- VIEW 2: ABOUT PANEL -->
     <div id="view-about" class="view">
         <main>
             <h1 class="view-title title-about">identity</h1>
             <div class="card card-about" style="text-align: left; align-items: flex-start; cursor: default; padding: 32px; max-width: 1200px; margin: 0 auto;">
                 <h2 style="margin-bottom: 16px;">about me</h2>
-                <p style="font-size: 1.05rem; margin-bottom: 16px; color: #334155; line-height: 1.7;">hi, i'm ufir.</p>
-                <p style="margin-bottom: 12px; line-height: 1.7; color: #475569;">i build systems, configure software environments, and experiment with self-hosted technology infrastructures.</p>
-                <p style="line-height: 1.7; color: #475569;">this web platform serves as a central interface for cataloging my technical projects, active assets, and custom configurations.</p>
+                <p style="font-size: 1.05rem; margin-bottom: 16px; color: var(--text-main); line-height: 1.7;">hi, i'm ufir.</p>
+                <p style="margin-bottom: 12px; line-height: 1.7; color: var(--text-muted);">i build systems, configure software environments, and experiment with self-hosted technology infrastructures.</p>
+                <p style="line-height: 1.7; color: var(--text-muted);">this web platform serves as a central interface for cataloging my technical projects, active assets, and custom configurations.</p>
             </div>
         </main>
     </div>
 
-    <!-- VIEW 3: LINKS PANEL -->
     <div id="view-links" class="view">
         <main>
             <h1 class="view-title title-links">external assets</h1>
@@ -455,7 +578,6 @@
         </main>
     </div>
 
-    <!-- VIEW 4: DOWNLOADS PANEL -->
     <div id="view-downloads" class="view">
         <main>
             <h1 class="view-title title-downloads">system files</h1>
@@ -473,7 +595,6 @@
         </main>
     </div>
 
-    <!-- VIEW 5: PLAY PANEL -->
     <div id="view-play" class="view">
         <main>
             <h1 class="view-title title-play">environments & nodes</h1>
@@ -482,7 +603,7 @@
                 <div class="card card-play" style="cursor: default; padding: 24px;">
                     <h2 style="width: 100%; text-align: left;">dedicated node status</h2>
                     <p style="margin-bottom: 16px; width: 100%; text-align: left;">multiplayer testing terminal</p>
-                    <div style="background: #f1f5f9; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; color: #334155; text-align: left;">
+                    <div style="background: var(--list-item-bg); border: 1px solid var(--border-default); width: 100%; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; color: var(--text-main); text-align: left;">
                         host: coming soon
                     </div>
                 </div>
@@ -491,11 +612,10 @@
         </main>
     </div>
 
-    <!-- VIEW 6: CONTACT PANEL -->
     <div id="view-contact" class="view">
         <main>
-            <div class="card" style="max-width: 540px; margin: 20px auto 0 auto; border-color: #e2e8f0; cursor: default; padding: 32px;">
-                <h2 style="color: #0f172a; margin-bottom: 16px; width: 100%; text-align: left;">reach out</h2>
+            <div class="card" style="max-width: 540px; margin: 20px auto 0 auto; border-color: var(--border-default); cursor: default; padding: 32px;">
+                <h2 style="color: var(--text-main); margin-bottom: 16px; width: 100%; text-align: left;">reach out</h2>
                 
                 <ul class="contact-list">
                     <li><strong>matrix:</strong> <span>@ufir:matrix.org</span></li>
@@ -506,40 +626,94 @@
         </main>
     </div>
 
-    <!-- Persistent Global Footer -->
+    <div id="pacman-overlay">
+        <button class="close-pacman-btn" onclick="closePacman()">✕ Close Arcade</button>
+        <iframe id="pacman-frame" src="" title="Pac-Man Game Container"></iframe>
+    </div>
+
     <footer>
         <p>&copy; 2026 ufir &bull; <button onclick="switchView('contact')">contact</button></p>
     </footer>
 
-    <!-- Single Page App Router Engine -->
     <script>
+        /* 1. SPA Router Script Segment */
         function switchView(viewName) {
-            // Hide all active view segments
             const views = document.querySelectorAll('.view');
-            views.forEach(view => {
-                view.classList.remove('active-view');
-            });
+            views.forEach(view => { view.classList.remove('active-view'); });
 
-            // Wipe out navigation focused states
             const navButtons = document.querySelectorAll('nav button');
-            navButtons.forEach(btn => {
-                btn.classList.remove('active');
-            });
+            navButtons.forEach(btn => { btn.classList.remove('active'); });
 
-            // Target next view element layer
             const selectedView = document.getElementById('view-' + viewName);
-            if (selectedView) {
-                selectedView.classList.add('active-view');
-            }
+            if (selectedView) { selectedView.classList.add('active-view'); }
 
-            // Sync navigation active layout accent
             const selectedNavButton = document.getElementById('nav-' + viewName);
-            if (selectedNavButton) {
-                selectedNavButton.classList.add('active');
-            }
+            if (selectedNavButton) { selectedNavButton.classList.add('active'); }
 
-            // Lock scrolling viewport to absolute top bound on view transition
             window.scrollTo(0, 0);
+        }
+
+        /* 2. Light / Dark Theme Sync Machine */
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.body.setAttribute('data-theme', targetTheme);
+            localStorage.setItem('theme', targetTheme);
+            updateThemeButtonText(targetTheme);
+        }
+
+        function updateThemeButtonText(theme) {
+            const btn = document.getElementById('theme-toggle-btn');
+            if (theme === 'dark') {
+                btn.innerHTML = '☀️ Light';
+            } else {
+                btn.innerHTML = '🌙 Dark';
+            }
+        }
+
+        // Initialize user preferred styling configuration out of localStorage cache on boot load
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        updateThemeButtonText(savedTheme);
+
+
+        /* 3. Triple-Click Hidden Arcade Easter Egg Logic Router */
+        let clickCount = 0;
+        let clickTimeout;
+
+        function handleSecretClick() {
+            clickCount++;
+            
+            // If the user doesn't hit the target 3 times within 1.5 seconds, reset the counter
+            clearTimeout(clickTimeout);
+            clickTimeout = setTimeout(() => {
+                clickCount = 0;
+            }, 1500);
+
+            if (clickCount === 3) {
+                clickCount = 0; // reset
+                openPacman();
+            }
+        }
+
+        function openPacman() {
+            const overlay = document.getElementById('pacman-overlay');
+            const frame = document.getElementById('pacman-frame');
+            
+            // Populates a clean, standalone version of the game canvas on interaction event
+            frame.src = "https://gnhshack.github.io/pacman/"; 
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // freezes main scroll bounds
+        }
+
+        function closePacman() {
+            const overlay = document.getElementById('pacman-overlay');
+            const frame = document.getElementById('pacman-frame');
+            
+            overlay.style.display = 'none';
+            frame.src = ""; // wipes memory allocations out of active dom tree instantly
+            document.body.style.overflow = 'scroll'; // unblocks scrolling context
         }
     </script>
 </body>
