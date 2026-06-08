@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home | ufir</title>
+    <!-- Favicon link pointing to your avatar image -->
+    <link rel="icon" type="image/png" href="/images/avatar.png">
     <style>
         /* Modern System Root Variables for Easy Theme Swapping */
         :root {
@@ -182,7 +184,7 @@
             margin-bottom: 6px;
         }
 
-        /* Easter Egg Target Selector styling */
+        /* Easter Egg Trigger */
         header p.secret-trigger {
             font-size: 1.1rem;
             opacity: 0.9;
@@ -283,7 +285,7 @@
         .card-play { border-color: var(--border-default); }
         .card-play:hover { border-color: #e11d48; }
 
-        /* Graphic Canvas & Fallbacks (Home View Only) */
+        /* Graphic Canvas & Fallbacks */
         .image-placeholder {
             width: 100%;
             height: 160px;
@@ -330,10 +332,10 @@
             margin-right: auto;
         }
 
-        .title-about { color: #1e40af; border-bottom: 2px solid var(--border-default); }
-        .title-links { color: #115e59; border-bottom: 2px solid var(--border-default); }
-        .title-downloads { color: #581c87; border-bottom: 2px solid var(--border-default); }
-        .title-play { color: #9f1239; border-bottom: 2px solid var(--border-default); }
+        .title-about { color: #3b82f6; border-bottom: 2px solid var(--border-default); }
+        .title-links { color: #0d9488; border-bottom: 2px solid var(--border-default); }
+        .title-downloads { color: #7c3aed; border-bottom: 2px solid var(--border-default); }
+        .title-play { color: #e11d48; border-bottom: 2px solid var(--border-default); }
 
         .card h2 {
             font-size: 1.5rem;
@@ -429,54 +431,11 @@
             color: var(--text-main);
             text-decoration: underline;
         }
-
-        /* Fullscreen Pac-Man Game Overlapping Screen Interface */
-        #pacman-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #000000;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-family: monospace;
-        }
-
-        #pacman-overlay iframe {
-            width: 100%;
-            max-width: 900px;
-            height: 80vh;
-            border: none;
-            background: #000;
-        }
-
-        .close-pacman-btn {
-            background: #e11d48;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            font-family: inherit;
-            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4);
-            transition: transform 0.1s ease;
-        }
-        .close-pacman-btn:hover {
-            background: #be123c;
-            transform: scale(1.03);
-        }
     </style>
 </head>
 <body>
 
+    <!-- Unified Navigation Shell -->
     <nav>
         <div class="nav-container">
             <button onclick="switchView('home')" id="nav-home" class="active">home</button>
@@ -491,12 +450,14 @@
         </button>
     </nav>
 
+    <!-- VIEW 1: HOME PANEL -->
     <div id="view-home" class="view active-view">
         <header>
             <div class="profile-container">
                 <img class="avatar" src="/images/avatar.png" alt="" onerror="this.style.display='none';">
             </div>
             <h1>ufir.github.io</h1>
+            <!-- Tapping "welcome" 3 times launches the stable archive -->
             <p class="secret-trigger" onclick="handleSecretClick()">welcome</p>
         </header>
 
@@ -543,6 +504,7 @@
         </main>
     </div>
 
+    <!-- VIEW 2: ABOUT PANEL -->
     <div id="view-about" class="view">
         <main>
             <h1 class="view-title title-about">identity</h1>
@@ -555,6 +517,7 @@
         </main>
     </div>
 
+    <!-- VIEW 3: LINKS PANEL -->
     <div id="view-links" class="view">
         <main>
             <h1 class="view-title title-links">external assets</h1>
@@ -578,6 +541,7 @@
         </main>
     </div>
 
+    <!-- VIEW 4: DOWNLOADS PANEL -->
     <div id="view-downloads" class="view">
         <main>
             <h1 class="view-title title-downloads">system files</h1>
@@ -595,6 +559,7 @@
         </main>
     </div>
 
+    <!-- VIEW 5: PLAY PANEL -->
     <div id="view-play" class="view">
         <main>
             <h1 class="view-title title-play">environments & nodes</h1>
@@ -612,6 +577,7 @@
         </main>
     </div>
 
+    <!-- VIEW 6: CONTACT PANEL -->
     <div id="view-contact" class="view">
         <main>
             <div class="card" style="max-width: 540px; margin: 20px auto 0 auto; border-color: var(--border-default); cursor: default; padding: 32px;">
@@ -626,15 +592,12 @@
         </main>
     </div>
 
-    <div id="pacman-overlay">
-        <button class="close-pacman-btn" onclick="closePacman()">✕ Close Arcade</button>
-        <iframe id="pacman-frame" src="" title="Pac-Man Game Container"></iframe>
-    </div>
-
+    <!-- Persistent Global Footer -->
     <footer>
         <p>&copy; 2026 ufir &bull; <button onclick="switchView('contact')">contact</button></p>
     </footer>
 
+    <!-- Scripts Engine -->
     <script>
         /* 1. SPA Router Script Segment */
         function switchView(viewName) {
@@ -672,48 +635,29 @@
             }
         }
 
-        // Initialize user preferred styling configuration out of localStorage cache on boot load
+        // Initialize user preferred theme setting
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.body.setAttribute('data-theme', savedTheme);
         updateThemeButtonText(savedTheme);
 
 
-        /* 3. Triple-Click Hidden Arcade Easter Egg Logic Router */
+        /* 3. Triple-Click Tab Trigger Logic */
         let clickCount = 0;
         let clickTimeout;
 
         function handleSecretClick() {
             clickCount++;
             
-            // If the user doesn't hit the target 3 times within 1.5 seconds, reset the counter
             clearTimeout(clickTimeout);
             clickTimeout = setTimeout(() => {
                 clickCount = 0;
             }, 1500);
 
             if (clickCount === 3) {
-                clickCount = 0; // reset
-                openPacman();
+                clickCount = 0;
+                // Opens Google's stable interactive standalone Pac-Man archive in a safe new tab
+                window.open("https://www.google.com/logos/2010/pacman10-hp.html", "_blank");
             }
-        }
-
-        function openPacman() {
-            const overlay = document.getElementById('pacman-overlay');
-            const frame = document.getElementById('pacman-frame');
-            
-            // Populates a clean, standalone version of the game canvas on interaction event
-            frame.src = "https://gnhshack.github.io/pacman/"; 
-            overlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // freezes main scroll bounds
-        }
-
-        function closePacman() {
-            const overlay = document.getElementById('pacman-overlay');
-            const frame = document.getElementById('pacman-frame');
-            
-            overlay.style.display = 'none';
-            frame.src = ""; // wipes memory allocations out of active dom tree instantly
-            document.body.style.overflow = 'scroll'; // unblocks scrolling context
         }
     </script>
 </body>
