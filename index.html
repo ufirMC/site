@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home | ufir</title>
+    <style>
+        /* Modern System Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-y: scroll;
+        }
+
+        /* Top Sticky Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 14px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 6px 16px;
+            margin: 0 4px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        nav button:hover {
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+
+        nav button.active {
+            background-color: #0f172a;
+            color: #ffffff;
+        }
+
+        /* Single Page Layout Views */
+        .view {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .view.active-view {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Graphical Hero Header (Home view) */
+        header {
+            position: relative;
+            text-align: center;
+            background: #0f172a;
+            background-image: linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%);
+            /* TO USE A CUSTOM BANNER: Drop banner.jpg into your images folder and delete the /* and */ below */
+            /* background-image: url('/images/banner.jpg'); */
+            background-size: cover;
+            background-position: center;
+            padding: 80px 20px 120px 20px; /* Extra padding bottom to cradle the cards */
+            color: white;
+            border-bottom-left-radius: 50% 24px;
+            border-bottom-right-radius: 50% 24px;
+            z-index: 1;
+        }
+
+        .profile-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            background-color: #e2e8f0;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+
+        /* Content Layout Structures */
+        main {
+            max-width: 950px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        main.home-main {
+            margin-top: -75px; /* Pulls home grid cards deeply over the header curve */
+            z-index: 10;        /* Ensures tiles render in front of the banner layer */
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .list-stack {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            main.home-main {
+                margin-top: -40px; /* Adjusted overlapping scaling for narrower viewports */
+            }
+            header {
+                padding-bottom: 90px;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Modern UI Cards */
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 28px;
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+            border: 2px solid transparent;
+            color: inherit;
+        }
+
+        button.card {
+            width: 100%;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        a.card:hover, button.card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        a.card:active, button.card:active {
+            transform: translateY(-2px);
+        }
+
+        /* Custom UI Accent Tints matching your mockup */
+        .card-about { border-color: #cbd5e1; }
+        .card-about:hover { border-color: #3b82f6; }
+        .card-links { border-color: #ccfbf1; }
+        .card-links:hover { border-color: #0d9488; }
+        .card-downloads { border-color: #f3e8ff; }
+        .card-downloads:hover { border-color: #7c3aed; }
+        .card-play { border-color: #ffe4e6; }
+        .card-play:hover { border-color: #e11d48; }
+
+        /* Graphic Canvas & Fallbacks */
+        .image-placeholder {
+            width: 100%;
+            height: 160px;
+            border-radius: 12px;
+            background-color: #f1f5f9;
+            border: 1px dashed #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 12px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0; 
+            transition: opacity 0.2s ease;
+        }
+
+        .image-placeholder img[src] {
+            opacity: 1;
+        }
+
+        /* Dynamic Typography Styles */
+        .view-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 28px;
+            padding-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .title-about { color: #1e40af; border-bottom: 2px solid #dbeafe; }
+        .title-links { color: #115e59; border-bottom: 2px solid #ccfbf1; }
+        .title-downloads { color: #581c87; border-bottom: 2px solid #f3e8ff; }
+        .title-play { color: #9f1239; border-bottom: 2px solid #ffe4e6; }
+
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .card-about h2 { color: #1d4ed8; }
+        .card-links h2 { color: #0f766e; }
+        .card-downloads h2 { color: #6d28d9; }
+        .card-play h2 { color: #be123c; }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        /* Action Buttons */
+        .btn {
+            display: inline-block;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Clean List Layouts */
+        .contact-list {
+            width: 100%;
+            text-align: left;
+            list-style: none;
+        }
+
+        .contact-list li {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            margin: 10px 0;
+            padding: 14px 18px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .contact-list strong {
+            color: #475569;
+        }
+
+        .contact-list span {
+            font-family: monospace;
+            background-color: #edf2f7;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: #0f172a;
+        }
+
+        /* Global Footer Elements */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 28px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+        
+        footer button {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        footer button:hover {
+            color: #0f172a;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <button onclick="switchView('home')" id="nav-home" class="active">home</button>
+        <button onclick="switchView('about')" id="nav-about">about</button>
+        <button onclick="switchView('links')" id="nav-links">links</button>
+        <button onclick="switchView('downloads')" id="nav-downloads">downloads</button>
+        <button onclick="switchView('play')" id="nav-play">play</button>
+        <button onclick="switchView('contact')" id="nav-contact">contact</button>
+    </nav>
+
+    <div id="view-home" class="view active-view">
+        <header>
+            <div class="profile-container">
+                <img class="avatar" src="/images/avatar.png" alt="" onerror="this.style.display='none';">
+            </div>
+            <h1>ufir.github.io</h1>
+            <p>welcome</p>
+        </header>
+
+        <main class="home-main">
+            <div class="card-grid">
+                
+                <button onclick="switchView('about')" class="card card-about">
+                    <div class="image-placeholder">
+                        UPLOAD YOUR OWN IMAGE HERE
+                        <img src="/images/about.png" alt="about icon" onerror="this.style.opacity=0;">
+                    </div>
+                    <h2>about</h2>
+                    <p>about ufir</p>
+                </button>
+
+                <button onclick="switchView('links')" class="card card-links">
+                    <div class="image-placeholder">
+                        PLACEHOLDER - IMAGE HERE
+                        <img src="/images/links.png" alt="links icon" onerror="this.style.opacity=0;">
+                    </div>
+                    <h2>links</h2>
+                    <p>useful links & platforms</p>
+                </button>
+
+                <button onclick="switchView('downloads')" class="card card-downloads">
+                    <div class="image-placeholder">
+                        PLACEHOLDER - INSERT IMAGE
+                        <img src="/images/downloads.png" alt="downloads icon" onerror="this.style.opacity=0;">
+                    </div>
+                    <h2>downloads</h2>
+                    <p>my files & downloads</p>
+                </button>
+
+                <button onclick="switchView('play')" class="card card-play">
+                    <div class="image-placeholder">
+                        PLACEHOLDER - INSERT IMAGE
+                        <img src="/images/play.png" alt="play icon" onerror="this.style.opacity=0;">
+                    </div>
+                    <h2>play</h2>
+                    <p>games & experiments</p>
+                </button>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="view-about" class="view">
+        <main>
+            <h1 class="view-title title-about">identity</h1>
+            <div class="card card-about" style="text-align: left; align-items: flex-start; cursor: default; padding: 32px;">
+                <div class="image-placeholder" style="height: 220px; border-style: dashed;">
+                    PLACEHOLDER - ABOUT HEADER IMAGE
+                    <img src="/images/about-header.png" alt="about artwork" onerror="this.style.opacity=0;">
+                </div>
+                <h2 style="margin-bottom: 16px;">about me</h2>
+                <p style="font-size: 1.05rem; margin-bottom: 16px; color: #334155; line-height: 1.7;">hi, i'm ufir.</p>
+                <p style="margin-bottom: 12px; line-height: 1.7; color: #475569;">i build systems, configure software environments, and experiment with self-hosted technology infrastructures.</p>
+                <p style="line-height: 1.7; color: #475569;">this web platform serves as a central interface for cataloging my technical projects, active assets, and custom configurations.</p>
+            </div>
+        </main>
+    </div>
+
+    <div id="view-links" class="view">
+        <main>
+            <h1 class="view-title title-links">external assets</h1>
+            <div class="list-stack">
+                
+                <a href="https://github.com" target="_blank" class="card card-links" style="flex-direction: row; text-align: left; align-items: center; padding: 20px 28px;">
+                    <div class="image-placeholder" style="width: 72px; height: 72px; margin-bottom: 0; margin-right: 24px; flex-shrink: 0; border-radius: 10px;">
+                        IMG
+                        <img src="/images/link-github.png" alt="github" onerror="this.style.opacity=0;">
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <h2>my github profile</h2>
+                        <p>repositories, codebases, and development logs.</p>
+                    </div>
+                </a>
+
+                <a href="#" target="_blank" class="card card-links" style="flex-direction: row; text-align: left; align-items: center; padding: 20px 28px;">
+                    <div class="image-placeholder" style="width: 72px; height: 72px; margin-bottom: 0; margin-right: 24px; flex-shrink: 0; border-radius: 10px;">
+                        IMG
+                        <img src="/images/link-project.png" alt="project" onerror="this.style.opacity=0;">
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <h2>featured project platform</h2>
+                        <p>external web utility or resource dashboard link.</p>
+                    </div>
+                </a>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="view-downloads" class="view">
+        <main>
+            <h1 class="view-title title-downloads">system files</h1>
+            <div class="list-stack">
+                
+                <div class="card card-downloads" style="flex-direction: row; justify-content: space-between; text-align: left; align-items: center; padding: 24px; cursor: default;">
+                    <div style="display: flex; align-items: center;">
+                        <div class="image-placeholder" style="width: 72px; height: 72px; margin-bottom: 0; margin-right: 24px; flex-shrink: 0; border-radius: 10px;">
+                            ZIP
+                            <img src="/images/dl-archive.png" alt="file icon" onerror="this.style.opacity=0;">
+                        </div>
+                        <div>
+                            <h2>configuration_package.zip</h2>
+                            <p>contains initialization scripts and backup environments.</p>
+                        </div>
+                    </div>
+                    <a href="/downloads/files/sample.zip" class="btn" style="background: #7c3aed;" download>get file</a>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="view-play" class="view">
+        <main>
+            <h1 class="view-title title-play">environments & nodes</h1>
+            <div class="card-grid">
+                
+                <div class="card card-play" style="cursor: default; padding: 24px;">
+                    <div class="image-placeholder" style="height: 150px;">
+                        PLACEHOLDER - ENVIRONMENT GRAPHIC
+                        <img src="/images/play-server.png" alt="server graphic" onerror="this.style.opacity=0;">
+                    </div>
+                    <h2 style="width: 100%; text-align: left;">dedicated node status</h2>
+                    <p style="margin-bottom: 16px; width: 100%; text-align: left;">multiplayer testing terminal</p>
+                    <div style="background: #f1f5f9; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; color: #334155; text-align: left;">
+                        host: coming soon
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="view-contact" class="view">
+        <main>
+            <div class="card" style="max-width: 540px; margin: 20px auto 0 auto; border-color: #e2e8f0; cursor: default; padding: 32px;">
+                <div class="image-placeholder" style="height: 140px; background-color: #e2e8f0; color: #475569; border: none;">
+                    PLACEHOLDER - CONTACT GRAPHIC
+                    <img src="/images/contact-card.png" alt="contact banner" onerror="this.style.opacity=0;">
+                </div>
+                <h2 style="color: #0f172a; margin-bottom: 16px; width: 100%; text-align: left;">reach out</h2>
+                
+                <ul class="contact-list">
+                    <li><strong>matrix:</strong> <span>@ufir:matrix.org</span></li>
+                    <li><strong>discord:</strong> <span>ufir</span></li>
+                    <li><strong>email:</strong> <span>ufir@example.com</span></li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ufir &bull; <button onclick="switchView('contact')">contact</button></p>
+    </footer>
+
+    <script>
+        function switchView(viewName) {
+            // Hide all active view segments
+            const views = document.querySelectorAll('.view');
+            views.forEach(view => {
+                view.classList.remove('active-view');
+            });
+
+            // Wipe out navigation focused states
+            const navButtons = document.querySelectorAll('nav button');
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Target next view element layer
+            const selectedView = document.getElementById('view-' + viewName);
+            if (selectedView) {
+                selectedView.classList.add('active-view');
+            }
+
+            // Sync navigation active layout accent
+            const selectedNavButton = document.getElementById('nav-' + viewName);
+            if (selectedNavButton) {
+                selectedNavButton.classList.add('active');
+            }
+
+            // Lock scrolling viewport to absolute top bound on view transition
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
